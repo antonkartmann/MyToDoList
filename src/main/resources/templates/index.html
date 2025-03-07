@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ToDo Liste</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --primary-color: #4a6cf7;
+            --completed-color: #888888;
+            --delete-color: #ff5252;
+            --border-color: #e0e0e0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --input-bg: #ffffff;
+            --moon-color: #666666;
+            --sun-color: #ffd24c;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1d21;
+            --card-bg: #282c34;
+            --text-color: #e3e3e3;
+            --primary-color: #5d7bf9;
+            --completed-color: #6c7983;
+            --delete-color: #ff6b6b;
+            --border-color: #3a3f48;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            --input-bg: #3a3f48;
+            --moon-color: #ffd24c;
+            --sun-color: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+
+        .moon-icon, .sun-icon {
+            width: 18px; /* Kleiner gemacht */
+            height: 18px; /* Kleiner gemacht */
+            transition: opacity 0.3s, transform 0.5s;
+            position: absolute;
+        }
+
+        .moon-icon {
+            fill: var(--moon-color);
+            opacity: 1;
+        }
+
+        .sun-icon {
+            fill: var(--sun-color);
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        [data-theme="dark"] .moon-icon {
+            opacity: 0;
+            transform: scale(0);
+        }
+
+        [data-theme="dark"] .sun-icon {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .todo-form {
+            display: flex;
+            margin-bottom: 30px;
+            gap: 10px;
+        }
+
+        .todo-form input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: var(--input-bg);
+            color: var(--text-color);
+        }
+
+        .todo-form input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.2);
+        }
+
+        .todo-form button {
+            padding: 15px 25px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+
+        .todo-form button:hover {
+            background-color: #3a5ce5;
+        }
+
+        .todo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .checkbox-container {
+            margin-right: 15px;
+        }
+
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--primary-color);
+            border-radius: 6px;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .custom-checkbox.checked {
+            background-color: var(--primary-color);
+        }
+
+        .custom-checkbox.checked::after {
+            content: "";
+            position: absolute;
+            left: 7px;
+            top: 3px;
+            width: 6px;
+            height: 12px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .todo-text {
+            flex: 1;
+            font-size: 16px;
+            word-break: break-word;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: var(--completed-color);
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--delete-color);
+            font-size: 22px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+            line-height: 1;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--completed-color);
+            padding: 30px 0;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .todo-form {
+                flex-direction: column;
+            }
+
+            .todo-form button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Meine ToDo Liste</h1>
+        <div class="theme-toggle" id="theme-toggle">
+            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 11.807C10.7418 10.5483 9.88488 8.94484 9.53762 7.1993C9.19037 5.45375 9.36832 3.64444 10.049 2C8.10826 2.85993 6.3993 4.26875 5.19818 6.06464C3.99705 7.86053 3.35632 9.91275 3.35632 12.0141C3.35632 15.0376 4.68403 17.9387 6.97918 20.0141C9.27433 22.0896 12.3871 23.1613 15.6056 23.1613C17.8371 23.1613 20.0255 22.5748 21.9455 21.4613C19.9881 21.9221 17.9082 21.8205 16.0037 21.1698C14.0992 20.519 12.4537 19.3458 11.2614 17.807C10.9828 16.1351 11.258 14.4163 12.051 12.893L12 11.807Z"/>
+            </svg>
+            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 17a5 5 0 100-10 5 5 0 000 10zm0-12a.5.5 0 01-.5-.5v-2a.5.5 0 011 0v2a.5.5 0 01-.5.5zm0 16a.5.5 0 01-.5-.5v-2a.5.5 0 011 0v2a.5.5 0 01-.5.5zm8-8a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zm-16 0a.5.5 0 01-.5.5h-2a.5.5 0 010-1h2a.5.5 0 01.5.5zm13.657-5.657a.5.5 0 010 .707l-1.414 1.414a.5.5 0 11-.707-.707l1.414-1.414a.5.5 0 01.707 0zm-11.314 11.314a.5.5 0 010 .707l-1.414 1.414a.5.5 0 01-.707-.707l1.414-1.414a.5.5 0 01.707 0zm0-11.314a.5.5 0 01.707 0l1.414 1.414a.5.5 0 01-.707.707L6.343 5.05a.5.5 0 010-.707zM17.95 17.607a.5.5 0 01.707 0l1.414 1.414a.5.5 0 01-.707.707l-1.414-1.414a.5.5 0 010-.707z"/>
+            </svg>
+        </div>
+    </div>
+
+    <form class="todo-form" th:action="@{/todo}" method="post">
+        <input type="text" id="new-todo" name="title" placeholder="Neue Aufgabe..." required>
+        <button type="submit">Hinzufügen</button>
+    </form>
+
+    <div id="todo-list" class="todo-list">
+        <!-- Zeige die leere Meldung an, wenn keine Todos vorhanden sind -->
+        <div th:if="${#lists.isEmpty(todos)}" class="empty-state">
+            Keine Aufgaben vorhanden. Füge deine erste Aufgabe hinzu!
+        </div>
+
+        <!-- Iteriere durch die Todo-Liste und zeige jedes Element an -->
+        <div th:each="todo : ${todos}" class="todo-item">
+            <div class="checkbox-container" th:onclick="'toggleTodo(' + ${todo.id} + ', ' + ${todo.completed} + ')'">
+                <span class="custom-checkbox" th:classappend="${todo.completed} ? 'checked' : ''"></span>
+            </div>
+            <span class="todo-text" th:text="${todo.title}" th:classappend="${todo.completed} ? 'completed' : ''"></span>
+            <button class="delete-btn" th:onclick="'deleteTodo(' + ${todo.id} + ')'">×</button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        // Theme Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+
+        // Check for saved theme preference or use OS preference
+        const currentTheme = localStorage.getItem('theme') ||
+            (prefersDarkScheme.matches ? 'dark' : 'light');
+
+        if (currentTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+        }
+
+        themeToggle.addEventListener('click', function() {
+            let theme = 'light';
+
+            if (!document.body.getAttribute('data-theme')) {
+                document.body.setAttribute('data-theme', 'dark');
+                theme = 'dark';
+            } else {
+                document.body.removeAttribute('data-theme');
+            }
+
+            localStorage.setItem('theme', theme);
+        });
+
+        // Event-Listener für die Enter-Taste im Eingabefeld
+        document.getElementById('new-todo').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.querySelector('.todo-form').submit();
+            }
+        });
+    });
+
+    // Todo-Status umschalten
+    function toggleTodo(id, completed) {
+        // Erstellen eines Form-Elements und senden als PUT-Anfrage
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/todo/' + id + '/toggle';
+
+        // CSRF Token für Spring Security, falls verwendet
+        const csrfToken = document.querySelector('meta[name="_csrf"]');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]');
+
+        if (csrfToken && csrfHeader) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = csrfHeader.content;
+            csrfInput.value = csrfToken.content;
+            form.appendChild(csrfInput);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // Todo löschen
+    function deleteTodo(id) {
+        // Erstellen eines Form-Elements und senden als DELETE-Anfrage
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/todo/' + id + '/delete';
+
+        // CSRF Token für Spring Security, falls verwendet
+        const csrfToken = document.querySelector('meta[name="_csrf"]');
+        const csrfHeader = document.querySelector('meta[name="_csrf_header"]');
+
+        if (csrfToken && csrfHeader) {
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = csrfHeader.content;
+            csrfInput.value = csrfToken.content;
+            form.appendChild(csrfInput);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</body>
+</html>

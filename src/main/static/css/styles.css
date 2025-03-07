@@ -1,0 +1,211 @@
+:root {
+    --bg-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --primary-color: #4a6cf7;
+    --completed-color: #888888;
+    --delete-color: #ff5252;
+    --border-color: #e0e0e0;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    --moon-color: #666666;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1d21;
+    --card-bg: #282c34;
+    --text-color: #e3e3e3;
+    --primary-color: #5d7bf9;
+    --completed-color: #6c7983;
+    --delete-color: #ff6b6b;
+    --border-color: #3a3f48;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    --input-bg: #3a3f48;
+    --moon-color: #ffd24c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 30px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.theme-toggle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.moon-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--moon-color);
+}
+
+.todo-form {
+    display: flex;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.todo-form input[type="text"] {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.todo-form input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 108, 247, 0.2);
+}
+
+.todo-form button {
+    padding: 15px 25px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+}
+
+.todo-form button:hover {
+    background-color: #3a5ce5;
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.todo-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: var(--card-bg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.checkbox-container {
+    margin-right: 15px;
+}
+
+.custom-checkbox {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+.custom-checkbox.checked {
+    background-color: var(--primary-color);
+}
+
+.custom-checkbox.checked::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.todo-text {
+    flex: 1;
+    font-size: 16px;
+    word-break: break-word;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: var(--completed-color);
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--delete-color);
+    font-size: 22px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    line-height: 1;
+}
+
+.delete-btn:hover {
+    opacity: 1;
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--completed-color);
+    padding: 30px 0;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .todo-form {
+        flex-direction: column;
+    }
+
+    .todo-form button {
+        width: 100%;
+    }
+}
