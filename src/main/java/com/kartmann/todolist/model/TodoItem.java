@@ -5,7 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
-import org.antlr.v4.runtime.misc.NotNull;
+
 
 
 @Entity
@@ -14,15 +14,15 @@ public class TodoItem {
     private Long id;
     @NotBlank
     private String title;
-    private boolean done;
+    private boolean completed;
 
     public TodoItem(){
     }
 
-    public TodoItem(Long id, String title, boolean done) {
+    public TodoItem(Long id, String title, boolean completed) {
         this.id = id;
         this.title = title;
-        this.done = done;
+        this.completed = completed;
     }
 
     @Id
@@ -36,8 +36,8 @@ public class TodoItem {
         return title;
     }
 
-    public boolean isDone() {
-        return done;
+    public boolean isCompleted() {
+        return completed;
     }
     // Setters
     public void setId(Long id) {
@@ -48,8 +48,8 @@ public class TodoItem {
         this.title = title;
     }
 
-        public void setDone(boolean done) {
-        this.done = done;
+        public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
 }

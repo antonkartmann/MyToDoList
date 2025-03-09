@@ -27,7 +27,7 @@ public class TodoViewController {
     public String addTodo(@RequestParam String title) {
         TodoItem todoItem = new TodoItem();
         todoItem.setTitle(title);
-        todoItem.setDone(false);
+        todoItem.setCompleted(false);
         todoRepo.save(todoItem);
         return "redirect:/";
     }
@@ -35,7 +35,7 @@ public class TodoViewController {
     @GetMapping("/todo/toggle/{id}")
     public String toggleTodo(@PathVariable Long id) {
         todoRepo.findById(id).ifPresent(todoItem -> {
-            todoItem.setDone(!todoItem.isDone());
+            todoItem.setCompleted(!todoItem.isCompleted());
             todoRepo.save(todoItem);
         });
         return "redirect:/";

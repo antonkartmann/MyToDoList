@@ -83,8 +83,8 @@ function createTodoItem(todo) {
     const customCheckbox = document.createElement('span');
     customCheckbox.className = 'custom-checkbox';
 
-    // Handle both "completed" and "done" property names
     const isCompleted = todo.completed !== undefined ? todo.completed : todo.done;
+
 
     if (isCompleted) {
         customCheckbox.classList.add('checked');

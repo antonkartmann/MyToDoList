@@ -259,12 +259,12 @@
     </div>
 
     <form class="todo-form" th:action="@{/todo}" method="post">
-        <input type="text" id="new-todo" name="title" placeholder="Neue Aufgabe..." required>
+        <label for="new-todo"></label><input type="text" id="new-todo" name="title" placeholder="Neue Aufgabe..." required>
         <button type="submit">Hinzufügen</button>
     </form>
 
     <div id="todo-list" class="todo-list">
-        <!-- Zeige die leere Meldung an, wenn keine Todos vorhanden sind -->
+        <!-- Zeige die leere Meldung an, wenn keine To-dos vorhanden sind -->
         <div th:if="${#lists.isEmpty(todos)}" class="empty-state">
             Keine Aufgaben vorhanden. Füge deine erste Aufgabe hinzu!
         </div>
