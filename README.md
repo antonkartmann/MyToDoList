@@ -37,10 +37,10 @@ This project is a simple calculator web application built using HTML, CSS, and J
 ## Future Plans
 - Add more advanced mathematical functions (e.g., square roots, exponentiation).
 - Improve error handling.
-- Enhance the UI to be more mobile-friendly.
+- Create a mobile version
 
 ## Author
-Created by Anton KArtmann
+Created by Anton Kartmann
 
 
 
