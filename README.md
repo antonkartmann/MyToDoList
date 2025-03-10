@@ -1,27 +1,51 @@
+# Calculator Web App
 
-### Meet the Interactive Feature Trainer
+## Description
+This project is a simple calculator web application built using HTML, CSS, and JavaScript. It supports basic arithmetic operations such as addition, subtraction, multiplication, and division.
 
-This interactive course will guide you through a lot of IDE workflows and use cases. It comes with many helpful action shortcuts. You don't need to memorize all of them. Instead, try them and take into your service the most useful ones. Since during your everyday work, you might encounter new problems, revisit this course and give other features a second try. Stay tuned for new lessons helping you to be more productive with IntelliJ IDEA.
+## Technologies Used
+- **HTML**: Provides the structure of the webpage.
+- **CSS**: Styles the application.
+- **JavaScript**: Implements the calculator's logic.
 
-##### How to use the course
+## Project Structure
+```bash
+├── index.html      # The main webpage
+├── styles.css      # Styling for the application
+├── index.js        # Calculator logic
+├── .gitignore      # Files to be ignored in version control
+├── misc.xml        # Project metadata
+├── modules.xml     # Module configuration
+├── calculator.iml  # IntelliJ IDEA project file
+```
 
-The `Learn` tool window contains several modules with the corresponding sets of lessons that you can take in any order. When you finish studying a lesson, it will be marked as completed. You can use a completed lesson for your reference or restart it if you want to refresh your knowledge.
+## Installation & Usage
+1. Clone the repository:
+   ```sh
+   git clone <repository-url>
+   ```
+2. Open `index.html` in a web browser.
+3. Click the buttons to perform calculations.
 
-Even though a lesson looks familiar to you, give it a try: you may discover helpful examples and unknown shortcuts of the features you actively use!
+## Features
+- `C` clears the display.
+- `←` removes the last entered character.
+- `=` calculates the result.
+- Supports basic arithmetic operations and decimal numbers.
 
-##### Get started
+## How It Works
+- Each button has an event listener that updates the display.
+- `eval()` is used to evaluate the mathematical expressions (not the safest method, but fine for this small project).
+- If an error occurs, the display shows "Error!".
 
-You are likely reading this `README.md` during the learning project initialization. Usually, `indexing` is the most time-consuming operation during project initialization. The IDE will need to collect information about your environment, project, libraries, and construct internal representation. It is needed for fast navigation and search. The `Navigation` module in this course will show how to use it.
+## Future Plans
+- Add more advanced mathematical functions (e.g., square roots, exponentiation).
+- Improve error handling.
+- Enhance the UI to be more mobile-friendly.
 
-##### Manage shortcuts
+## Author
+Created by Anton KArtmann
 
-Some shortcuts in this course may conflict with the system or other application shortcuts. In this case, you can click the problematic shortcut in the text of the lesson. The opened popup will show you the action name and alternative shortcuts. You will be able to apply the action or assign a new shortcut.
 
-If there is another issue, try to restart the lesson or report the bug in [our bug tracker](https://youtrack.jetbrains.com/issues/IFT).
 
-##### Get back to your project
 
-To return to the welcome screen, just close the project window. Alternatively, you can select `File | Close Project` from the main menu. Also, you can use the `File` menu to open or create new projects. By default, the `Learn` tool window is hidden. You can open it by selecting `Help | Learn IDE Features` from the main menu.
-
-We will appreciate you leaving your feedback about this learning course!
-  
