@@ -13,10 +13,6 @@ This project is a simple calculator web application built using HTML, CSS, and J
 ├── index.html      # The main webpage
 ├── styles.css      # Styling for the application
 ├── index.js        # Calculator logic
-├── .gitignore      # Files to be ignored in version control
-├── misc.xml        # Project metadata
-├── modules.xml     # Module configuration
-├── calculator.iml  # IntelliJ IDEA project file
 ```
 
 ## Installation & Usage
